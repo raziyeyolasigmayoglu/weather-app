@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/models/forecast.dart';
 import 'package:weather_app/models/location.dart';
+import 'package:weather_app/services/constants.dart';
 
 abstract class IWeatherApi {
   Future<Forecast> getWeather(Location location);
@@ -9,13 +10,14 @@ abstract class IWeatherApi {
 }
 
 class WeatherApi extends IWeatherApi {
-  static const endPointUrl = 'https://api.openweathermap.org/data/2.5';
-  static const apiKey = "c5c389452a2eaf047359d0b40421dfb2";
+  final http.Client httpClient;
+
+  WeatherApi(this.httpClient);
 
   @override
   Future<Location> getLocation(String city) async {
     final requestUrl = '$endPointUrl/weather?q=$city&APPID=$apiKey';
-    final response = await http.get(Uri.parse(requestUrl));
+    final response = await httpClient.get(Uri.parse(requestUrl));
 
     if (response.statusCode != 200) {
       throw Exception(
@@ -29,7 +31,7 @@ class WeatherApi extends IWeatherApi {
   Future<Forecast> getWeather(Location location) async {
     final requestUrl =
         '$endPointUrl/onecall?lat=${location.latitude}&lon=${location.longitude}&exclude=hourly,minutely&APPID=$apiKey';
-    final response = await http.get(Uri.parse(requestUrl));
+    final response = await httpClient.get(Uri.parse(requestUrl));
 
     if (response.statusCode != 200) {
       throw Exception('error retrieving weather: ${response.statusCode}');
