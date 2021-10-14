@@ -1,22 +1,28 @@
+import 'package:intl/intl.dart';
+import 'package:weather_app/utils/extensions.dart';
+import 'package:weather_app/utils/temp_converter.dart';
+
 import 'weather.dart';
 
 class Forecast {
-  final DateTime? lastUpdated;
+  final DateTime lastUpdated;
   final List<Weather> daily;
-  final Weather? current;
-  final bool? isDayTime;
+  Weather current;
+  final bool isDayTime;
   String city;
-  final DateTime? sunset;
-  final DateTime? sunrise;
+  String sunset;
+  String sunrise;
+  String date;
 
   Forecast(
-      {this.lastUpdated,
+      {required this.lastUpdated,
       this.daily = const [],
-      this.current,
+      required this.current,
       this.city = '',
-      this.isDayTime,
-      this.sunrise,
-      this.sunset});
+      required this.isDayTime,
+      required this.sunrise,
+      required this.sunset,
+      required this.date});
 
   static Forecast fromJson(dynamic json) {
     var weather = json['current']['weather'][0];
@@ -31,7 +37,6 @@ class Forecast {
 
     bool isDay = date.isAfter(sunrise) && date.isBefore(sunset);
 
-    // get the forecast for the next 3 days, excluding the current day
     bool hasDaily = json['daily'] != null;
     List<Weather> tempDaily = [];
     if (hasDaily) {
@@ -39,28 +44,30 @@ class Forecast {
       tempDaily = items
           .map((item) => Weather.fromDailyJson(item))
           .toList()
-          .skip(1)
           .take(7)
           .toList();
     }
 
     var currentForcast = Weather(
         cloudiness: int.parse(json['current']['clouds'].toString()),
-        temp: json['current']['temp'].toDouble(),
+        temp: TempConverter.kelvinToCelsius(
+            double.parse(json['current']['temp'].toString())),
         condition: Weather.mapStringToWeatherCondition(
             weather['main'], int.parse(json['current']['clouds'].toString())),
-        description: weather['description'],
-        feelLikeTemp: json['current']['feels_like'],
-        date: date,
-        sunrise: sunrise,
-        sunset: sunset);
+        description: weather['description'].toString().capitalize(),
+        feelLikeTemp: TempConverter.kelvinToCelsius(
+            double.parse(json['current']['feels_like'].toString())),
+        date: DateFormat('d EEE').format(date),
+        sunrise: DateFormat.jm().format(sunrise),
+        sunset: DateFormat.jm().format(sunset));
 
     return Forecast(
         lastUpdated: DateTime.now(),
         current: currentForcast,
         daily: tempDaily,
         isDayTime: isDay,
-        sunset: sunset,
-        sunrise: sunrise);
+        sunset: DateFormat.jm().format(sunset),
+        sunrise: DateFormat.jm().format(sunrise),
+        date: DateFormat('d EEE').format(date));
   }
 }

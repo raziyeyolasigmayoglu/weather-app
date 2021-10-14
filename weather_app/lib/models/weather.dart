@@ -1,3 +1,7 @@
+import 'package:intl/intl.dart';
+import 'package:weather_app/utils/extensions.dart';
+import 'package:weather_app/utils/temp_converter.dart';
+
 enum WeatherCondition {
   thunderstorm,
   drizzle,
@@ -16,9 +20,9 @@ class Weather {
   final double temp;
   final double feelLikeTemp;
   final int cloudiness;
-  final DateTime date;
-  final DateTime sunrise;
-  final DateTime sunset;
+  final String date;
+  final String sunrise;
+  final String sunset;
 
   Weather(
       {required this.condition,
@@ -36,13 +40,18 @@ class Weather {
 
     return Weather(
         condition: mapStringToWeatherCondition(weather['main'], cloudiness),
-        description: weather['description'],
+        description: weather['description'].toString().capitalize(),
         cloudiness: cloudiness,
-        temp: daily['temp']['day'].toDouble(),
-        date: DateTime.fromMillisecondsSinceEpoch(daily['dt'] * 1000),
-        sunrise: DateTime.fromMillisecondsSinceEpoch(daily['sunrise'] * 1000),
-        sunset: DateTime.fromMillisecondsSinceEpoch(daily['sunset'] * 1000),
-        feelLikeTemp: daily['feels_like']['day'].toDouble());
+        temp: TempConverter.kelvinToCelsius(
+            double.parse(daily['temp']['day'].toString())),
+        date: DateFormat('d EEE')
+            .format(DateTime.fromMillisecondsSinceEpoch(daily['dt'] * 1000)),
+        sunrise: DateFormat.jm().format(
+            DateTime.fromMillisecondsSinceEpoch(daily['sunrise'] * 1000)),
+        sunset: DateFormat.jm().format(
+            DateTime.fromMillisecondsSinceEpoch(daily['sunset'] * 1000)),
+        feelLikeTemp: TempConverter.kelvinToCelsius(
+            double.parse(daily['feels_like']['day'].toString())));
   }
 
   static WeatherCondition mapStringToWeatherCondition(

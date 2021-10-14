@@ -6,7 +6,7 @@ abstract class IRepository {
 }
 
 class Repository extends IRepository {
-  final WeatherApi weatherApi;
+  final IWeatherApi weatherApi;
   Repository(this.weatherApi);
 
   @override
