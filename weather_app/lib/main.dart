@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/pages/favorite_page.dart';
+import 'cubit/favorite_cubit.dart';
 import 'cubit/weather_cubit.dart';
 import 'di/initialize_dependency.dart';
 import 'pages/home_page.dart';
@@ -26,11 +28,19 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: MultiBlocProvider(providers: [
-      BlocProvider(
-        create: (BuildContext context) =>
-            WeatherCubit(injector.get<IRepository>()),
-      )
-    ], child: const HomePage()));
+        home: MultiBlocProvider(
+            providers: [
+          BlocProvider(
+            create: (BuildContext context) =>
+                WeatherCubit(injector.get<IRepository>()),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => FavoriteCubit(),
+          )
+        ],
+            child: const MaterialApp(
+              title: 'Weather App',
+              home: HomePage(),
+            )));
   }
 }

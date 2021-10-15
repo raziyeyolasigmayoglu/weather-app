@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:get_it/get_it.dart';
 import 'package:weather_app/services/repository.dart';
 import 'package:weather_app/services/weather_api.dart';

@@ -4,7 +4,7 @@ class LastUpdatedWidget extends StatelessWidget {
   const LastUpdatedWidget({Key? key, required this.lastUpdatedOn})
       : super(key: key);
 
-  final DateTime lastUpdatedOn;
+  final TimeOfDay lastUpdatedOn;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +17,7 @@ class LastUpdatedWidget extends StatelessWidget {
             size: 15,
           ),
           const SizedBox(width: 10),
-          Text(
-              'Last updated on ${TimeOfDay.fromDateTime(lastUpdatedOn).format(context)}',
+          Text('Last updated on ${lastUpdatedOn.format(context)}',
               style: const TextStyle(
                 fontSize: 16,
                 color: Colors.black45,

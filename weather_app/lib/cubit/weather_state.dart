@@ -3,7 +3,10 @@ part of 'weather_cubit.dart';
 @immutable
 abstract class WeatherState {}
 
-class WeatherInitial extends WeatherState {}
+class WeatherInitial extends WeatherState {
+  final String message;
+  WeatherInitial(this.message);
+}
 
 class WeatherLoading extends WeatherState {}
 

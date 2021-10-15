@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/utils/extensions.dart';
 import 'package:weather_app/utils/temp_converter.dart';
@@ -5,10 +6,10 @@ import 'package:weather_app/utils/temp_converter.dart';
 import 'weather.dart';
 
 class Forecast {
-  final DateTime lastUpdated;
+  final TimeOfDay lastUpdated;
   final List<Weather> daily;
   Weather current;
-  final bool isDayTime;
+  bool isDayTime;
   String city;
   String sunset;
   String sunrise;
@@ -44,25 +45,26 @@ class Forecast {
       tempDaily = items
           .map((item) => Weather.fromDailyJson(item))
           .toList()
+          .skip(1)
           .take(7)
           .toList();
     }
 
     var currentForcast = Weather(
         cloudiness: int.parse(json['current']['clouds'].toString()),
-        temp: TempConverter.kelvinToCelsius(
-            double.parse(json['current']['temp'].toString())),
+        temp:
+            '${Weather.formatTemperature(TempConverter.kelvinToCelsius(double.parse(json['current']['temp'].toString())))}°',
         condition: Weather.mapStringToWeatherCondition(
             weather['main'], int.parse(json['current']['clouds'].toString())),
         description: weather['description'].toString().capitalize(),
-        feelLikeTemp: TempConverter.kelvinToCelsius(
-            double.parse(json['current']['feels_like'].toString())),
+        feelLikeTemp:
+            '${Weather.formatTemperature(TempConverter.kelvinToCelsius(double.parse(json['current']['feels_like'].toString())))}°',
         date: DateFormat('d EEE').format(date),
         sunrise: DateFormat.jm().format(sunrise),
         sunset: DateFormat.jm().format(sunset));
 
     return Forecast(
-        lastUpdated: DateTime.now(),
+        lastUpdated: TimeOfDay.fromDateTime(DateTime.now()),
         current: currentForcast,
         daily: tempDaily,
         isDayTime: isDay,

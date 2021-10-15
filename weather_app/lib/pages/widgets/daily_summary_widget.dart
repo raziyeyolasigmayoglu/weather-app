@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/models/weather.dart';
-import 'package:weather_app/utils/temp_converter.dart';
 
 class DailySummaryWidget extends StatelessWidget {
   const DailySummaryWidget({Key? key, required this.weather}) : super(key: key);
@@ -13,7 +12,7 @@ class DailySummaryWidget extends StatelessWidget {
     final dayOfWeek = toBeginningOfSentenceCase(weather.date);
 
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Container(
           width: 100,
           height: 120,
@@ -28,7 +27,7 @@ class DailySummaryWidget extends StatelessWidget {
                         fontSize: 18,
                         color: Colors.white,
                         fontWeight: FontWeight.w300)),
-                Text("${weather.temp.round().toString()}°",
+                Text(weather.temp,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 20,

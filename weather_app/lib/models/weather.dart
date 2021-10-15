@@ -15,10 +15,10 @@ enum WeatherCondition {
 }
 
 class Weather {
-  final WeatherCondition condition;
+  WeatherCondition condition;
   final String description;
-  final double temp;
-  final double feelLikeTemp;
+  final String temp;
+  final String feelLikeTemp;
   final int cloudiness;
   final String date;
   final String sunrise;
@@ -42,16 +42,22 @@ class Weather {
         condition: mapStringToWeatherCondition(weather['main'], cloudiness),
         description: weather['description'].toString().capitalize(),
         cloudiness: cloudiness,
-        temp: TempConverter.kelvinToCelsius(
-            double.parse(daily['temp']['day'].toString())),
+        temp:
+            '${formatTemperature(TempConverter.kelvinToCelsius(double.parse(daily['temp']['day'].toString())))}°',
         date: DateFormat('d EEE')
             .format(DateTime.fromMillisecondsSinceEpoch(daily['dt'] * 1000)),
         sunrise: DateFormat.jm().format(
             DateTime.fromMillisecondsSinceEpoch(daily['sunrise'] * 1000)),
         sunset: DateFormat.jm().format(
             DateTime.fromMillisecondsSinceEpoch(daily['sunset'] * 1000)),
-        feelLikeTemp: TempConverter.kelvinToCelsius(
-            double.parse(daily['feels_like']['day'].toString())));
+        feelLikeTemp:
+            '${formatTemperature(TempConverter.kelvinToCelsius(double.parse(daily['feels_like']['day'].toString())))}°');
+  }
+
+  static String formatTemperature(double t) {
+    // ignore: unnecessary_null_comparison
+    var temp = (t == null ? '' : t.round().toString());
+    return temp;
   }
 
   static WeatherCondition mapStringToWeatherCondition(

@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 class CityInformationWidget extends StatelessWidget {
   const CityInformationWidget(
       {Key? key,
-      required this.date,
       required this.city,
       required this.sunrise,
       required this.sunset})
       : super(key: key);
 
-  final String date;
   final String city;
   final String sunset;
   final String sunrise;
@@ -24,25 +22,23 @@ class CityInformationWidget extends StatelessWidget {
               fontWeight: FontWeight.w300,
               color: Colors.white,
             )),
-        Text(date,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            )),
-        const SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Column(children: [
-            const Text('Sunrise', style: TextStyle(color: Colors.white)),
+            const Text('Sunrise',
+                style: TextStyle(fontSize: 16, color: Colors.white)),
             const SizedBox(height: 5),
-            Text(sunrise, style: const TextStyle(color: Colors.white))
+            Text(sunrise,
+                style: const TextStyle(fontSize: 15, color: Colors.white))
           ]),
-          const SizedBox(width: 60),
+          const SizedBox(width: 20),
           Column(children: [
-            const Text('Sunset', style: TextStyle(color: Colors.white)),
+            const Text('Sunset',
+                style: TextStyle(fontSize: 16, color: Colors.white)),
             const SizedBox(height: 5),
-            Text(sunset, style: const TextStyle(color: Colors.white))
+            Text(sunset,
+                style: const TextStyle(fontSize: 15, color: Colors.white))
           ]),
-        ])
+        ]),
       ]),
     );
   }

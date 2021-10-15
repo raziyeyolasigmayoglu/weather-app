@@ -12,7 +12,7 @@ class WeatherDescriptionWidget extends StatelessWidget {
         child: Text(weatherDescription,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 35,
+              fontSize: 30,
               fontWeight: FontWeight.w300,
               color: Colors.white,
             )));
