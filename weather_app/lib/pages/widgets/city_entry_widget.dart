@@ -26,15 +26,14 @@ class _CityEntryWidgetState extends State<CityEntryWidget> {
   void submitCityName(BuildContext context, String cityName) {
     BlocProvider.of<WeatherCubit>(context).getWeather(cityName);
     widget.callBackFunction();
+    cityEditController.text = '';
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 50),
-        padding: const EdgeInsets.only(left: 5, top: 5, right: 20, bottom: 00),
-        height: 50,
-        width: 200,
+        margin: const EdgeInsets.only(left: 10, top: 15, right: 10),
+        height: 45,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.only(

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/cubit/favorite_cubit.dart';
 import 'package:weather_app/cubit/weather_cubit.dart';
 import 'package:weather_app/models/forecast.dart';
 import 'package:weather_app/models/weather.dart';
-import 'package:weather_app/pages/favorite_page.dart';
+import 'package:weather_app/pages/favourite_page.dart';
 import 'widgets/city_information_widget.dart';
 import 'widgets/city_entry_widget.dart';
 import 'widgets/daily_summary_widget.dart';
@@ -50,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const FavoritePage(),
+                    builder: (context) => const FavouritePage(),
                   ),
                 );
               },
@@ -94,9 +93,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildMessageText(String message) {
-    return Center(
-        child: Text(message,
-            style: const TextStyle(fontSize: 21, color: Colors.white)));
+    return Padding(
+        padding: const EdgeInsets.only(top: 30),
+        child: Center(
+            child: Text(message,
+                style: const TextStyle(fontSize: 21, color: Colors.white))));
   }
 
   Widget buildColumnWithData() {
@@ -114,7 +115,7 @@ class _HomePageState extends State<HomePage> {
       const SizedBox(height: 20),
       WeatherDescriptionWidget(
           weatherDescription: _forecast!.current.description),
-      const SizedBox(height: 50),
+      const SizedBox(height: 40),
       buildDailySummary(_forecast!.daily),
       LastUpdatedWidget(lastUpdatedOn: _forecast!.lastUpdated)
     ]);
