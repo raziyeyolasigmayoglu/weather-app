@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/cubit/favourite_cubit.dart';
-import 'package:weather_app/utils/extensions.dart';
 
 class CityInformationWidget extends StatefulWidget {
-  const CityInformationWidget(
+  bool isFavourite;
+  bool get isGetFavourite => isFavourite;
+
+  CityInformationWidget(
       {Key? key,
       required this.city,
       required this.sunrise,
-      required this.sunset})
+      required this.sunset,
+      required this.isFavourite})
       : super(key: key);
 
   final String city;
@@ -20,8 +23,6 @@ class CityInformationWidget extends StatefulWidget {
 }
 
 class _CityInformationWidgetState extends State<CityInformationWidget> {
-  bool isAdded = false;
-
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -30,16 +31,19 @@ class _CityInformationWidgetState extends State<CityInformationWidget> {
             padding: const EdgeInsets.only(right: 5),
             child: IconButton(
               onPressed: () {
-                isAdded
+                widget.isFavourite
                     ? BlocProvider.of<FavouriteCubit>(context)
-                        .deleteFavorite(widget.city.capitalize())
+                        .deleteFavorite(widget.city)
                     : BlocProvider.of<FavouriteCubit>(context)
-                        .addFavorite(widget.city.capitalize());
+                        .addFavorite(widget.city);
                 setState(() {
-                  isAdded ? isAdded = false : isAdded = true;
+                  widget.isFavourite
+                      ? widget.isFavourite = false
+                      : widget.isFavourite = true;
                 });
               },
-              icon: Icon(isAdded ? Icons.favorite : Icons.favorite_border,
+              icon: Icon(
+                  widget.isFavourite ? Icons.favorite : Icons.favorite_border,
                   color: Colors.white),
             ))
       ]),

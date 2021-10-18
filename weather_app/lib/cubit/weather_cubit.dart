@@ -10,17 +10,18 @@ class WeatherCubit extends Cubit<WeatherState> {
   WeatherCubit(this._repository)
       : super(WeatherInitial('Please enter city name.'));
 
-  Future<void> getWeather(String cityName) async {
+  Future<void> getWeather(String cityName, bool isFavourite) async {
     try {
       emit(WeatherLoading());
       final forecast = await _repository.getWeather(cityName.trim());
       forecast.city = cityName;
+      forecast.isFavourite = isFavourite;
       emit(WeatherLoaded(forecast: forecast));
     } catch (_) {
       if (cityName.isEmpty) {
         emit(WeatherError("Please enter city name."));
       } else {
-        emit(WeatherError("City not found."));
+        emit(WeatherError("Network error, try again"));
       }
     }
   }

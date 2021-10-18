@@ -21,7 +21,8 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   Future<void> deleteFavorite(String city) async {
-    _favoriteList.remove(Favourite(city: city));
+    _favoriteList
+        .removeWhere((item) => item.city.toUpperCase() == city.toUpperCase());
     emit(FavouriteLoaded(favoriteList: _favoriteList));
   }
 }

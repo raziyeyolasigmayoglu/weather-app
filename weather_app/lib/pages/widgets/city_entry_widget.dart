@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/cubit/weather_cubit.dart';
 
@@ -24,7 +23,7 @@ class _CityEntryWidgetState extends State<CityEntryWidget> {
   }
 
   void submitCityName(BuildContext context, String cityName) {
-    BlocProvider.of<WeatherCubit>(context).getWeather(cityName);
+    BlocProvider.of<WeatherCubit>(context).getWeather(cityName, false);
     widget.callBackFunction();
     cityEditController.text = '';
   }

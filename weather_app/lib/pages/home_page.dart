@@ -105,7 +105,8 @@ class _HomePageState extends State<HomePage> {
       CityInformationWidget(
           city: _forecast!.city,
           sunrise: _forecast!.sunrise,
-          sunset: _forecast!.sunset),
+          sunset: _forecast!.sunset,
+          isFavourite: _forecast!.isFavourite),
       const SizedBox(height: 40),
       WeatherSummaryWidget(
           date: _forecast!.date,
@@ -152,7 +153,8 @@ class _HomePageState extends State<HomePage> {
       });
       return _refreshCompleter!.future;
     } else {
-      return BlocProvider.of<WeatherCubit>(context).getWeather(forecast.city);
+      return BlocProvider.of<WeatherCubit>(context)
+          .getWeather(forecast.city, false);
     }
   }
 

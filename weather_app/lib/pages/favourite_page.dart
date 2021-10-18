@@ -29,8 +29,8 @@ class FavouritePage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return InkWell(
                           onTap: () {
-                            BlocProvider.of<WeatherCubit>(context)
-                                .getWeather(state.favoriteList[index].city);
+                            BlocProvider.of<WeatherCubit>(context).getWeather(
+                                state.favoriteList[index].city, true);
                             Navigator.pop(context);
                           },
                           child: Card(
