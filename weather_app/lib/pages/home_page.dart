@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               icon: const Icon(Icons.list),
               onPressed: () async {
+                isSelectedDate = false;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -138,6 +139,7 @@ class _HomePageState extends State<HomePage> {
                     _forecast!.sunrise = dailyForecast[index].sunrise;
                     _forecast!.sunset = dailyForecast[index].sunset;
                     _forecast!.current = dailyForecast[index];
+
                     _refreshCompleter?.complete();
                     _refreshCompleter = Completer();
                     refreshWeather(_forecast!);
@@ -154,7 +156,7 @@ class _HomePageState extends State<HomePage> {
       return _refreshCompleter!.future;
     } else {
       return BlocProvider.of<WeatherCubit>(context)
-          .getWeather(forecast.city, false);
+          .getWeather(forecast.city, forecast.isFavourite);
     }
   }
 

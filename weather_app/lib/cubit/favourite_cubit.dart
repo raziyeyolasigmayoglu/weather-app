@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:weather_app/models/favourite.dart';
+import 'package:weather_app/utils/extensions.dart';
 
 part 'favourite_state.dart';
 
@@ -15,7 +16,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   Future<void> addFavorite(String city) async {
     bool isExist = _favoriteList.any((element) => element.city.contains(city));
     if (!isExist) {
-      _favoriteList.add(Favourite(city: city));
+      _favoriteList.add(Favourite(city: city.capitalize()));
     }
     emit(FavouriteLoaded(favoriteList: _favoriteList));
   }
